@@ -3,7 +3,7 @@ package org.familysearch.cmp.authorization.permissions;
 /**
  * Permissions used to protect access to Units resources.
  */
-public enum CmpMsgPermission implements org.familysearch.engage.foundation.security.Permission {
+public enum CmpPermission implements org.familysearch.engage.foundation.security.Permission {
 
     /******************************************************************************
     *  1- From UserMessaging/FSMessagingDefaultContext

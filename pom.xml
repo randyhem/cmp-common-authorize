@@ -61,6 +61,19 @@
       <artifactId>slf4j-api</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.familysearch.identity</groupId>
+      <artifactId>cis-cas-client</artifactId>
+      <version>1.b97</version>
+    </dependency>
+
+    <!-- PAAS Service Locator -->
+    <dependency>
+      <groupId>org.familysearch.paas</groupId>
+      <artifactId>binding-register-client</artifactId>
+      <version>1.0.b38</version>
+    </dependency>
+
     <!-- Spring Test -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -88,12 +101,12 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>6.9.9</version>
-      <scope>test</scope>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.testng</groupId>-->
+      <!--<artifactId>testng</artifactId>-->
+      <!--<version>6.9.9</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
 
   </dependencies>
   

@@ -5,7 +5,9 @@
 
 package org.familysearch.cmp.authorization;
 
-import org.familysearch.cmp.authorization.permissions.CmpMsgPermission;
+import org.familysearch.cmp.authorization.exception.UnauthenticatedException;
+import org.familysearch.cmp.authorization.exception.UnauthorizedException;
+import org.familysearch.cmp.authorization.permissions.CmpPermission;
 import org.familysearch.engage.foundation.security.AuthorizationContext;
 import org.familysearch.engage.foundation.security.FoundationSecurityManager;
 
@@ -144,7 +146,7 @@ public class AuthorizationAspectJunitCT {
         assertThat( captor.getValue(), notNullValue() );
         assertThat( captor.getValue().getPermissions(), notNullValue() );
         assertThat( captor.getValue().getPermissions().size(), equalTo( 1 ) );
-        assertThat( captor.getValue().getPermissions().get(0), equalTo( CmpMsgPermission.SessionRequired ) );
+        assertThat( captor.getValue().getPermissions().get(0), equalTo( CmpPermission.SessionRequired ) );
         assertThat( captor.getValue().get( AUTH_CAS_CONTEXT_KEY ), equalTo( TEST_CAS_CONTEXT ) );
 
         verify( securityManager, times(1) ).isAuthorized( any( AuthorizationContext.class ) );
@@ -167,7 +169,7 @@ public class AuthorizationAspectJunitCT {
         assertThat( captor.getValue(), notNullValue() );
         assertThat( captor.getValue().getPermissions(), notNullValue() );
         assertThat( captor.getValue().getPermissions().size(), equalTo( 1 ) );
-        assertThat( captor.getValue().getPermissions().get(0), equalTo( CmpMsgPermission.SessionRequired ) );
+        assertThat( captor.getValue().getPermissions().get(0), equalTo( CmpPermission.SessionRequired ) );
 
         verify( securityManager, times(1) ).isAuthorized( any( AuthorizationContext.class ) );
     }
@@ -199,13 +201,13 @@ public class AuthorizationAspectJunitCT {
 
     static class TestResourceHttpController {
 
-        @PermissionRequired( value = {CmpMsgPermission.SessionRequired} )
+        @PermissionRequired( value = {CmpPermission.SessionRequired} )
         public String protectedResourceMethod( String in ) {
             System.out.println( "  <<< ProtectedResourceMethod called >>>" );
             return in;
         }
 
-        @PermissionRequired( value = {CmpMsgPermission.SessionRequired},
+        @PermissionRequired( value = {CmpPermission.SessionRequired},
             requireCheckSessionCasContext = true )
         public String protectedCasResourceMethod( String in ) {
             System.out.println( "  <<< ProtectedCasResourceMethod called >>>" );

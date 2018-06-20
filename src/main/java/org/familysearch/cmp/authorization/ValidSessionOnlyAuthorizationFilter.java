@@ -1,14 +1,17 @@
 
+/*
+ * (c) 2018 by Intellectual Reserve, Inc. All rights reserved.
+ */
+
 package org.familysearch.cmp.authorization;
 
+import jersey.repackaged.com.google.common.base.Preconditions;
+import org.familysearch.cmp.authorization.exception.UnauthenticatedException;
 import org.familysearch.cmp.authorization.util.StringUtils;
 import org.familysearch.engage.foundation.security.AuthorizationContext;
 import org.familysearch.engage.foundation.security.AuthorizationFilter;
 import org.familysearch.engage.foundation.security.AuthorizationFilterChain;
 import org.familysearch.engage.foundation.security.FoundationSecurityManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.annotation.Lazy;
 
 
 /**
@@ -18,42 +21,48 @@ import org.springframework.context.annotation.Lazy;
  */
 public class ValidSessionOnlyAuthorizationFilter implements AuthorizationFilter {
 
-
-    @Autowired
-    @Lazy
-    private FoundationSecurityManager foundationSecurityManager;
-
-    private String sessionRequiredPermissionName;
+    private static final String NULL_REQUIRED_ARG = "No %s object provided (null)";
 
 
-    @Required
-    public void setFoundationSecurityManager(FoundationSecurityManager foundationSecurityManager) {
-        this.foundationSecurityManager = foundationSecurityManager;
+    final private FoundationSecurityManager foundationSecurityManager;
+
+    final private String                    sessionRequiredPermission;
+
+
+    public ValidSessionOnlyAuthorizationFilter( FoundationSecurityManager   securityMgr,
+                                                String                      sessionPermissionName ) {
+
+        Preconditions.checkArgument( securityMgr != null,
+                                     String.format( NULL_REQUIRED_ARG, "FoundationSecurityManager" ) );
+
+        Preconditions.checkArgument( sessionPermissionName != null,
+                                     String.format( NULL_REQUIRED_ARG, "Session-Permission" ) );
+
+        foundationSecurityManager = securityMgr;
+        sessionRequiredPermission = sessionPermissionName;
     }
 
-
-    @Required
-    public void setSessionRequiredPermissionName(String sessionRequiredPermissionName) {
-        this.sessionRequiredPermissionName = sessionRequiredPermissionName;
-    }
 
 
     @Override
-    public boolean isAuthorized(AuthorizationFilterChain filterChain, AuthorizationContext context) {
+    public boolean isAuthorized( AuthorizationFilterChain   filterChain,
+                                 AuthorizationContext       context ) {
         /*
-            The first step of any authorization is to establish identity.  Throw an UnauthenticatedException if the request has
-            no sessionId or if the sessionId has expired.  This will map to a 401 response and the request will not be further
-            processed by any other authorization filters (because no authorization can be done without first authenticating).
-            NOTE: This filter should be registered first in the filter chain so that unauthenticated requests never reach other
-            filters.
+            The first step of any authorization is to establish identity.  Throw an
+            UnauthenticatedException if the request has no sessionId or if the sessionId
+            has expired.  This will map to a 401 response and the request will not be
+            further processed by any other authorization filters (because no authorization
+            can be done without first authenticating).
+            NOTE: This filter should be registered first in the filter chain so that
+            unauthenticated requests never reach other filters.
         */
         final String authenticatedUserID = foundationSecurityManager.authenticatedUserID();
         if ( StringUtils.isNullorEmpty( authenticatedUserID ) ) {
-            throw new UnauthenticatedException("The request is not authenticated with a valid session token");
+            throw new UnauthenticatedException( "The request is not authenticated with a valid session token");
         }
 
         // Now that the request has been verified to be authenticated, check the context to see which permissions are required
-        if (context.getPermissionNames().contains(sessionRequiredPermissionName)) {
+        if ( context.getPermissionNames().contains( sessionRequiredPermission ) ) {
             // Authentication alone is sufficient to authorize this request, return true
             return true;
         }

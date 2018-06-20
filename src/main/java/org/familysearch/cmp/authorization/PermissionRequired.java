@@ -1,7 +1,7 @@
 
 package org.familysearch.cmp.authorization;
 
-import org.familysearch.cmp.authorization.permissions.CmpMsgPermission;
+import org.familysearch.cmp.authorization.permissions.CmpPermission;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 @Retention( RetentionPolicy.RUNTIME )
 public @interface PermissionRequired {
 
-    CmpMsgPermission[] value();
+    CmpPermission[] value();
 
     boolean requireCheckSessionCasContext() default false;
 

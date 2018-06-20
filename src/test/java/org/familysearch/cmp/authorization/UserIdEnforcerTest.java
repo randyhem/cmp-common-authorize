@@ -1,6 +1,7 @@
 package org.familysearch.cmp.authorization;
 
 //import org.familysearch.cmp.messages.dal.entity.Participant;
+import org.familysearch.cmp.authorization.exception.UnauthorizedException;
 import org.familysearch.engage.foundation.security.FoundationSecurityManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;

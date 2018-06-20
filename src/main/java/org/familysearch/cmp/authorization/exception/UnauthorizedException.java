@@ -1,5 +1,5 @@
 
-package org.familysearch.cmp.authorization;
+package org.familysearch.cmp.authorization.exception;
 
 /**
  * Exception thrown to indicate the request requires authorization,

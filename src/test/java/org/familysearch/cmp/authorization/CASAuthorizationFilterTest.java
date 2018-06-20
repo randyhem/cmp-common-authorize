@@ -14,20 +14,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static org.familysearch.cmp.authorization.permissions.CmpMsgPermission.SessionRequired;
-import static org.familysearch.cmp.authorization.permissions.CmpMsgPermission.FSMessagingAdminApiViewThread;
+import static org.familysearch.cmp.authorization.permissions.CmpPermission.SessionRequired;
+import static org.familysearch.cmp.authorization.permissions.CmpPermission.FSMessagingAdminApiViewThread;
 
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -57,7 +52,7 @@ public class CASAuthorizationFilterTest {
 
 
 
-    @InjectMocks
+//    @InjectMocks
     private CASAuthorizationFilter testCasFilter;
 
     @Mock
@@ -72,8 +67,8 @@ public class CASAuthorizationFilterTest {
     @Mock
     private Future<PermissionSet> mockFuturePermissionSet;
 
-    @Captor
-    private ArgumentCaptor<List<String>> permissionsCaptor;
+//    @Captor
+//    private ArgumentCaptor<List<String>> permissionsCaptor;
 
     private PermissionSet permissionSet;
 
@@ -88,11 +83,10 @@ public class CASAuthorizationFilterTest {
 
         MockitoAnnotations.initMocks( this );
 
-        testCasFilter.setDefaultCasAuthorizationContext( TEST_CAS_CONTEXT );
-        List<String>    permList = new ArrayList<>();
-        permList.add( SessionRequired.name() );
+        Set<String>    expectedPermissions = new HashSet<>();
+        expectedPermissions.add( SessionRequired.name() );
 
-        testCasFilter.setHandledPermissions( permList );
+        testCasFilter = new CASAuthorizationFilter( mockSecurityManager, mockIdentityService, TEST_CAS_CONTEXT, expectedPermissions );
 
         Set<String> authorizedPermissions = new HashSet<>();
         Set<String> deniedPermissions = new HashSet<>();

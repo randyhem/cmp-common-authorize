@@ -5,6 +5,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
+import org.familysearch.cmp.authorization.exception.UnauthenticatedException;
+import org.familysearch.cmp.authorization.exception.UnauthorizedException;
 import org.familysearch.cmp.authorization.util.StringUtils;
 import org.familysearch.engage.foundation.security.AuthorizationContext;
 import org.familysearch.engage.foundation.security.FoundationSecurityManager;
