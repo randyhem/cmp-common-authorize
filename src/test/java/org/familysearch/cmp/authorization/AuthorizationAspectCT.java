@@ -46,8 +46,8 @@ import static org.hamcrest.Matchers.nullValue;
 
 
 @RunWith( SpringJUnit4ClassRunner.class )
-@ContextConfiguration( classes = {AuthorizationAspectJunitCT.TestConfiguration.class })
-public class AuthorizationAspectJunitCT {
+@ContextConfiguration( classes = {AuthorizationAspectCT.TestConfiguration.class })
+public class AuthorizationAspectCT {
 
     @Configuration
     @EnableAspectJAutoProxy

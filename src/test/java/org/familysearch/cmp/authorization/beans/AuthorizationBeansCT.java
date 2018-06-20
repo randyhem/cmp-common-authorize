@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.*;
 
 
-public class AuthorizationBeansTest {
+public class AuthorizationBeansCT {
 
     private static int  testCnt = 0;
     private static Lock forceSerialLock = new ReentrantLock();
